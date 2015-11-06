@@ -52,13 +52,19 @@ class View(models.Model):
         '"how-to-do-it-right" is rendered when calling '
         '"/ecommerce/study/how-to-do-it-right".'
     )
-    seo_url_children = fields.One2many('ir.ui.view', 'seo_url_parent', 'SEO Children')
+    seo_url_children = fields.One2many(
+        'ir.ui.view', 'seo_url_parent', 'SEO Children')
 
-    @api.onchange('seo_url_parent')
-    def onchange_seo_url_parent(self):
+    @api.one
+    def get_url_level(self):
         url_level = 0
         if self.seo_url_parent:
             url_level = self.seo_url_parent.seo_url_level + 1
+        return url_level
+
+    @api.onchange('seo_url_parent')
+    def onchange_seo_url_parent(self):
+        url_level = self.get_url_level()[0]
         self.seo_url_level = url_level
 
     @api.multi
@@ -74,7 +80,8 @@ class View(models.Model):
     def update_related_views(self):
         for obj in self:
             if obj.seo_url_children:
-                obj.seo_url_children.write({'seo_url_level': obj.seo_url_level + 1})
+                obj.seo_url_children.write(
+                    {'seo_url_level': obj.seo_url_level + 1})
 
     @api.multi
     def update_website_menus(self):
