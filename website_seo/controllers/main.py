@@ -30,6 +30,7 @@ class Website(Website):
         """Handle SEO urls for ir.ui.views."""
         env = request.env(context=request.context)
         seo_url_parts = kwargs.get('seo_url_parts', False)
+
         if not seo_url_parts:
             seo_url_parts = [s.encode('utf8') for s in seo_url.split('/')
                              if s != '']

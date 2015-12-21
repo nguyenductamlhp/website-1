@@ -201,7 +201,8 @@ class WebsiteSeoMetadata(models.Model):
     _inherit = 'website.seo.metadata'
 
     seo_url = fields.Char(
-        string='SEO Url', translate=True, help='If you fill out this field '
+        string='SEO Url',
+        help='If you fill out this field '
         'manually the allowed characters are a-z, A-Z, 0-9, - and _.')
     website_meta_robots = fields.Selection([
         ('INDEX,FOLLOW', 'INDEX,FOLLOW'),
@@ -233,6 +234,8 @@ class WebsiteSeoMetadata(models.Model):
 
     def validate_seo_url(self, seo_url):
         """Validate a manual entered SEO url."""
+        if seo_url and len(self.search([('seo_url', '=', seo_url)])):
+            raise ValidationError(_('SEO url must be unique.'))
         if not seo_url or not bool(re.match('^([.a-zA-Z0-9-_]+)$', seo_url)):
             raise ValidationError(_('Only a-z, A-Z, 0-9, - and _ are allowed '
                                     'characters for the SEO url.'))

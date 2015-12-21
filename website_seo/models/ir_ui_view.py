@@ -36,7 +36,8 @@ class View(models.Model):
     # I think it will be necessary when the website_seo_blog module is updated
     # with the same seo url handling like in the website_seo module
     seo_url_level = fields.Integer(
-        string='SEO Url Level', readonly=False,
+        string='SEO Url Level',
+        readonly=False,
         help='Indicates the SEO url level. It starts with the root level 0.')
     seo_url_parent = fields.Many2one(
         'ir.ui.view', string='SEO Parent',
