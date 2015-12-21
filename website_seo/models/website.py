@@ -235,7 +235,10 @@ class WebsiteSeoMetadata(models.Model):
 
     def validate_seo_url(self, seo_url):
         """Validate a manual entered SEO url."""
-        if seo_url and len(self.search([('seo_url', '=', seo_url)])):
+        if seo_url and len(self.search([
+            ('seo_url', '=', seo_url),
+            ('id', '!=', self.id)
+        ])):
             raise ValidationError(_('SEO url must be unique.'))
         if not seo_url or not bool(re.match('^([.a-zA-Z0-9-_]+)$', seo_url)):
             raise ValidationError(_('Only a-z, A-Z, 0-9, - and _ are allowed '
