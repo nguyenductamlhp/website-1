@@ -203,7 +203,8 @@ class WebsiteSeoMetadata(models.Model):
     seo_url = fields.Char(
         string='SEO Url',
         help='If you fill out this field '
-        'manually the allowed characters are a-z, A-Z, 0-9, - and _.')
+        'manually the allowed characters are a-z, A-Z, 0-9, - and _.',
+        translate=True)
     website_meta_robots = fields.Selection([
         ('INDEX,FOLLOW', 'INDEX,FOLLOW'),
         ('NOINDEX,FOLLOW', 'NOINDEX,FOLLOW'),
